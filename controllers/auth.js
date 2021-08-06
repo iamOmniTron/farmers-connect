@@ -52,5 +52,13 @@ module.exports = {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+  profile: async(req,res,next)=>{
+    try {
+      const user = req.user;
+      res.send(user);
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 }
