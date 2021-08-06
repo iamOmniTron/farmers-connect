@@ -6,8 +6,19 @@ const ProductSchema = new Schema({
   name:{
     type:String
   },
+  store:{
+    type:Types.ObjectId,
+    ref:"Store"
+  },
   isBought:{
     type:Boolean,
+    default:false
+  },
+  price:{
+    type:Number
+  },
+  description:{
+    type:Number
   },
   store:{
     type:Types.ObjectId,
