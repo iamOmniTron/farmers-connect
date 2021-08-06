@@ -24,21 +24,24 @@ module.exports = {
   getStore:async(req,res,next)=>{
     try {
       const storeId = req.params.id;
-      const store = await Store.findById(storeId);
+      const store = await Store.findById(storeId).populate("owner");
       if(!store){
         throw "invalid store"
       }
       res.send(store);
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
   },
   getAllStores: async(req,res,next)=>{
     try {
       const stores = await Store.find({}).populate("owner");
+      if(!store){
+        throw "no store available"
+      }
+      res.send(stores);
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
+  },
   }
-
-}
