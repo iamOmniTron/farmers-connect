@@ -1,0 +1,34 @@
+<div class="container">
+  {{#if success}}
+  <div class="alert alert-success col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+    {{success}}
+  </div>
+  {{/if}}
+  {{#if error}}
+  <div class="alert alert-danger position-fixed h-10 opacity-5 text-center z-index-n1">
+    {{error}}
+  </div>
+  {{/if}}
+</div>
+<div class="container my-4 d-flex align-items-center justify-content-center" style="width:45vw">
+  <div class="p-6 mt-4 ">
+  <h1 class="text-center text-success">Edit Product</h1>
+  <hr class="text-success">
+
+<form method="post" class="row g-3">
+  <div class="mb-3">
+    <input type="text" class="form-control" name="name" aria-describedby="product-name" placeholder="product name" value={{name}}>
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" name="description" id="exampleInputPassword1" placeholder="product-description" value={{description}}>
+  </div>
+  <div class="mb-3">
+    <div class="input-group-prepend">
+  <div class="input-group-text">NGN</div>
+</div> <input type="number" name="price" class="form-control" id="exampleCheck1" min="10" step="" style=" padding-left:20px;
+  text-align:left;" value={{price}}>
+  </div>
+  <button type="submit" class="btn btn-success">Add</button>
+</form>
+</div>
+</div>

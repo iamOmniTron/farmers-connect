@@ -1,0 +1,38 @@
+<!-- hello
+<div class="alert alert-success text-center opacity-0 d-block z-index w-100 gap-0" id="flash">
+  {{success}} Hello
+</div> -->
+<div class="container">
+  {{#if success}}
+  <div class="alert alert-success col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+    {{success}}
+  </div>
+  {{/if}}
+  {{#if error}}
+  <div class="alert alert-danger position-fixed h-10 opacity-5 text-center z-index-n1">
+    {{error}}
+  </div>
+  {{/if}}
+</div>
+
+<div class="container  d-flex align-items-center justify-content-center" style="width:45vw">
+  <div class="p-6 mt-4 ">
+  <h1 class="text-center text-success">login</h1>
+  <hr class="text-success">
+  <form action="/login" class="row g-3" method="post">
+    <div class="col-md-12">
+      <input type="email" name="email" id="email" required class="form-control" placeholder="your email">
+    </div>
+    <div class="col-md-12">
+      <input type="password" name="password" id="pass1"required class="form-control" placeholder="password">
+    </div>
+    <div class="col-md-12 d-grid">
+      <button type="submit" class="btn btn-success" style="height:3em">login</button>
+    </div>
+    <div class="text-center">
+      <p>Dont have an account? <a href="/signup" class="text-success">signup</a></p>
+    </div>
+  </form>
+
+</div>
+  </div>

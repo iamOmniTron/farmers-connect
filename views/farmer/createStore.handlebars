@@ -1,0 +1,26 @@
+<div class="container">
+  {{#if success}}
+  <div class="alert alert-success col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+    {{success}}
+  </div>
+  {{/if}}
+  {{#if error}}
+  <div class="alert alert-danger position-fixed h-10 opacity-5 text-center z-index-n1">
+    {{error}}
+  </div>
+  {{/if}}
+</div>
+<div class="container my-4 d-flex align-items-center justify-content-center" style="width:45vw">
+  <div class="p-6 mt-4 ">
+  <h1 class="text-center text-success">Create your store</h1>
+  <p>add products to your store</p>
+  <hr class="text-success">
+
+<form method="post" class="row g-3">
+  <div class="input-group mb-3">
+  <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Button</button>
+  <input type="text" class="form-control" name="name" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+</div>
+</form>
+</div>
+</div>

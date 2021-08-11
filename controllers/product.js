@@ -43,6 +43,18 @@ module.exports = {
       throw new Error(error.message);
     }
   },
+  getAllBoughtProducts:async(req,res,next)=>{
+    try {
+      const products = await Product.find({isBought:true});
+
+      if(!products){
+        throw "no products at the moment"
+      }
+      res.send(products);
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
   deleteProduct: async(req,res,next)=>{
     try {
       const {storeId} = req.user;

@@ -1,0 +1,49 @@
+<div class="container">
+  {{#if success}}
+    <div class="alert alert-success col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+      {{success}}
+    </div>
+  {{/if}}
+  {{#if error}}
+    <div class="alert alert-danger position-fixed h-10 opacity-5 text-center z-index-n1">
+      {{error}}
+    </div>
+  {{/if}}
+</div>
+<div class="container my-4 d-flex align-items-center justify-content-center mt-auto" style="width:45vw">
+  <div class="p-6 mt-4 ">
+    <h1 class="text-center text-success">signup</h1>
+    <hr class="text-success">
+    <form action="/signup" class="row g-3" method="post">
+      <div class=" col-md-12">
+        <input type="text" name="name" class="form-control" required id="username" placeholder="your username">
+      </div>
+      <div class="col-md-12">
+        <input type="email" name="email" id="email" required class="form-control" placeholder="your email">
+      </div>
+      <div class="col-md-12">
+        <input type="tel" name="phone" id="phone" required class="form-control" placeholder="your phone number">
+      </div>
+      <div class="col-md-12">
+        <input type="password" name="password" id="pass1" required class="form-control" placeholder="password">
+      </div>
+      <div class="col-md-12">
+        <input type="password" name="confirmPassword" id="pass2" required class="form-control" placeholder="re-enter password">
+      </div>
+      <div class="col-md-12">
+        <select class="form-select" aria-label="role" required name="role">
+          <option selected value="" disabled selected style=" display:none"><span style="color:gray;">signup as a</span></option>
+          <option value="user">Buyer</option>
+          <option value="farmer">Farmer</option>
+        </select>
+      </div>
+      <div class="col-md-12 d-grid">
+        <button type="submit" class="btn btn-success" style="height:3em">signup</button>
+      </div>
+      <div class="text-center">
+        <p>Already a member? <a href="/login" class="text-success">sign in</a></p>
+      </div>
+    </form>
+
+  </div>
+</div>
