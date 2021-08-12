@@ -5,7 +5,7 @@
   </div>
   {{/if}}
   {{#if error}}
-  <div class="alert alert-danger position-fixed h-10 opacity-5 text-center z-index-n1">
+  <div class="alert alert-danger col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
     {{error}}
   </div>
   {{/if}}
@@ -15,20 +15,19 @@
   <h1 class="text-center text-success">Add Product</h1>
   <hr class="text-success">
 
-<form method="post" class="row g-3">
+<form method="post" class="row g-3" enctype="multipart/form-data" action="/farmer/store/add">
   <div class="input-group mb-3">
     <input type="text" class="form-control" name="name" aria-describedby="product-name" placeholder="product name">
   </div>
   <div class="input-group mb-3">
-  <label class="input-group-text" for="inputGroupFile01">Upload</label>
   <input type="file" class="form-control" name="image" id="inputGroupFile01">
 </div>
   <div class="input-group mb-3">
-    <input type="password" class="form-control" name="description" id="exampleInputPassword1" placeholder="product-description">
+    <input type="text" class="form-control" name="description" id="exampleInputPassword1" placeholder="product-description">
   </div>
   <div class="mb-3">
     <div class="input-group-prepend">
-    <div class="input-group-text">NGN</div>
+    <div class="input-group-text">₦</div>
   </div> <input type="number" name="price" class="form-control" id="exampleCheck1" min="10" step="" style=" padding-left:20px;
   text-align:left;">
   </div>

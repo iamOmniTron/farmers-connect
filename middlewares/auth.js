@@ -1,13 +1,18 @@
 module.exports = {
   ensureAuth: (req,res,next)=>{
     if(!req.session.user){
-      throw "unauthenticated"
+      req.flash("error","you need to sign in first");
+      return res.redirect("/login")
     }
     next();
   },
   ensureLoggedIn:(req,res,next)=>{
     if(req.session.user){
-    return  res.redirect(req.originalUrl);
+    req.flash("error","you need to logout first");
+    if(req.session.user.role == "farmer"){
+      return  res.redirect("/dashboard");
+    }
+    res.redirect("/")
     }
     next();
   },

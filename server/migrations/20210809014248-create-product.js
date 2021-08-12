@@ -39,7 +39,7 @@ module.exports = {
         references: {
           model: 'Store',
           key: 'id',
-          as: 'storeId',
+          as: 'StoreId',
         },
       },
     });

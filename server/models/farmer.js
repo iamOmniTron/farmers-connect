@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
   const Farmer = sequelize.define("Farmer",{
     id:{
       type:DataTypes.UUID,
-      defaultvalue:DataTypes.UUIDV4,
-      primaryKey:true
-    }
+      primaryKey:true,
+      defaultValue:DataTypes.UUIDV4,
+    },
   },{
     freezeTableName:true
   })

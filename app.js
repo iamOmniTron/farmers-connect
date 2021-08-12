@@ -17,16 +17,17 @@ const app = express();
   try {
     await sequelize.authenticate()
     console.log("Connection to database established");
+    // await sequelize.sync({force:true});
     await sequelize.sync();
     console.log("database synchronized");
-    // console.log(sequelize)
   } catch (error) {
     console.log(error.message)
   }
 })()
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(__dirname + "public"));
+app.use(express.static("./public"));
 app.use(favicon(__dirname + "/public/favicon/favicon.ico"));
+// app.use("/image",express.static(__dirname + "public/images/upload"))
 app.engine(
   "handlebars",
   exphbs({

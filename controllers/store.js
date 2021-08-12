@@ -1,61 +1,87 @@
-const User = require("../models/user.model");
-const Store = require("../models/store.model");
+const Store = require("../server/models").Store;
+const multer = require("multer");
+const path = require("path");
+const Product = require("../server/models").Product;
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images/uploads")
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+})
+ 
+const upload = multer({ storage: storage })
+
 
 module.exports = {
-  createStore :async (req,res,next)=>{
+  upload: upload,
+  createStore : async (req,res,next)=>{
     try {
-      const user = req.user;
-      if(req.user.role !== "farmer"){
-        req.flash("error","unauthorized")
+      const {name} = req.body;
+      if(!name){
+        req.flash("error","a store name is required");
         return res.redirect(req.originalUrl);
       }
-      const store = new Store({
-        owner:req.user.id,
-      })
-      const isUpdated = await User.findOneAndUpdate(
-      { _id: user._id },
-      { $set: { store:store._id } },
-      { new: true, runValidators: true }
-    );
-    if(!isUpdated){
-      req.flash("error","cannot assign store to user");
-      return res.redirect(req.originalUrl);
-    }
-      const isSaved = await store.save();
-      if(!isSaved){
-        req.flash('error',"couldnt create store");
+      const farmerId = req.session.user.farmer.id;
+      const {dataValues} = await Store.create({name,ownerId:farmerId});
+      if(!dataValues){
+        req.flash("error","could not create store at the moment");
         return res.redirect(req.originalUrl)
       }
-      req.user.storeId = store._id;
-      req.flash("success","store created successfully")
-      res.redirect("req.originalUrl");
+      req.flash("success","store created successfully");
+      res.redirect("/dashboard");
     } catch (error) {
       throw new Error(error.message)
     }
   },
-  getStore:async(req,res,next)=>{
+  addProduct : async (req,res,next)=>{
     try {
-      const storeId = req.params.id;
-      const store = await Store.findById(storeId).populate("owner");
-      if(!store){
-        req.flash("error","invalid store");
-        return res.redirect(req.originalUrl)
+      const file = req.file;
+      const imgUrl = file.path.replace(/\\/g, "/").substring(7);
+      const {name,description,price} = req.body;
+      const {id} = await Store.findOne({attributes:["id"],where:{ownerId:req.session.user.farmer.id}});
+      // console.log(id)
+      const {dataValues} = await Product.create({name,description,price,StoreId:id,imageUrl:imgUrl});
+      if(!dataValues){
+        req.flash("error","could not store product");
+        return res.redirect(req.originalUrl);
       }
-      res.send(store);
+      req.flash("success","product uploaded successfully");
+      res.redirect("/dashboard")
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error.message)
     }
   },
-  getAllStores: async(req,res,next)=>{
+  addToCart: async (req,res,next)=>{
     try {
-      const stores = await Store.find({}).populate("owner");
-      if(!store){
-        req.flash("error","no store available at the moment");
-        return res.redirect(req.originalUrl)
+      console.log(req.params.productId)
+      const productId = req.params.productId;
+      if(!req.session.user.cart || req.session.user.cart == "undefined"){
+        req.session.cart = [];
       }
-      res.send(stores);
+      if(req.session.user.cart.includes(productId)){
+        return res.redirect("/")
+      }
+      req.session.user.cart.push(productId);
+      req.flash("success","added to cart");
+      res.redirect('/');
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error.message)
     }
   },
+  removeFromCart: async (req,res,next)=>{
+    try {
+      const productId = req.params.productId;
+      if(!req.session.user.cart.includes(productId)){
+        return res.redirect("/")
+      }
+      req.session.user.cart = req.session.user.cart.filter((itemId)=>itemId !==productId);
+      req.flash("success","removed item from cart");
+      res.redirect("/");
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
+}

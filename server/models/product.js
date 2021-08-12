@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
        allowNull:false
      }, 
      onDelete:"CASCADE"
+   });
+   Product.hasOne(models.Transaction,{
+     foreignKey:{
+       allowNull:false
+     },
    })
  }
   return Product;

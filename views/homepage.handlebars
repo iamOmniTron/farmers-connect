@@ -1,16 +1,30 @@
 {{>navbar}}
-<div class="container">
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    {{#each product}}
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{name}}</h5>
-          <p class="card-text">{{description}}</p>
-          <a href="#" class="btn btn-success">Add to cart</a>
+<section class="bg-light py-4 my-5">
+    <div class="container">
+        <div class="row">
+          {{!-- Contents should be here --}}
+            <div class="col-12">
+                <h2 class="mb-3 text-success">Welcome To Farmers Connect</h2>
+                <p class="lead">Buy fresh foods straight from the farm</p>
+            </div>
+            {{#each products}}
+            <div class="col-md-6 col-lg-4">
+                <div class="card my-3">
+                    <div class="card-thumbnail">
+                        <a href="/product/{{id}}">
+                        <img src={{imageUrl}} class="img-fluid image" alt="thumbnail">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title"><a href="#" class="text-secondary">₦ {{price}}</a></h3>
+                        <p class="card-text">{{description}}</p>
+                        <form action="/cart/add/{{id}}/" method="POST" id="add-to-cart">
+                            <button class="btn btn-success" type="submit">Add To Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
         </div>
-      </div>
     </div>
-    {{/each}}
-  </div>
-</div>
+</section>
