@@ -15,24 +15,26 @@
     <div class="container">
         <div class="row">
           {{!-- Contents should be here --}}
-            <div class="col-12">
+            {{!-- <div class="col-12">
                 <h2 class="mb-3 text-success">Welcome To Farmers Connect</h2>
                 <p class="lead">Buy fresh foods straight from the farm</p>
-            </div>
+            </div> --}}
             {{#each products}}
             <div class="col-md-6 col-lg-4">
                 <div class="card my-3">
                     <div class="card-thumbnail">
-                        <a href="/product/{{id}}">
+                        <a href="/farmer/product/{{id}}">
                         <img src={{imageUrl}} class="img-fluid image" alt="thumbnail"/>
                         </a>
                     </div>
                     <div class="card-body">
                         <h3 class="card-title"><a href="#" class="text-secondary">₦ {{price}}</a></h3>
                         <p class="card-text">{{description}}</p>
-                        <form action="/cart/add/{{id}}/" method="POST" id="add-to-cart">
+                        {{!-- <form action="/cart/add/{{id}}/" method="POST" id="add-to-cart">
                             <button class="btn btn-success" type="submit">Add To Cart</button>
-                        </form>
+                        </form> --}}
+                        <button>Delete</button>
+                        <button>Edit</button>
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      storeId: {
+      StoreId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {

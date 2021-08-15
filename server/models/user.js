@@ -35,11 +35,11 @@ module.exports = (sequelize, DataTypes) => {
     })
     User.hasMany(models.Transaction,{
       foreignKey:{
-        name:"buyerId",
         allowNull:false
       },
       onDelete:"RESTRICT"
     })
+    User.hasMany(models.Order)
   }
   return User;
 };

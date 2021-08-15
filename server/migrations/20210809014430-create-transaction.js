@@ -8,7 +8,7 @@ module.exports = {
         defaultValue:Sequelize.UUIDV4,
         primaryKey: true,
       },
-      price: {
+      total: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -23,17 +23,9 @@ module.exports = {
         type: Sequelize.UUID,
         onDelete: 'RESTRICT',
         references: {
-          model: 'Users',
+          model: 'User',
           key: 'id',
           as: 'buyerId',
-        },
-      },
-      productId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'Product',
-          key: 'id',
-          as: 'productId',
         },
       },
       storeId: {

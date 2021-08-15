@@ -35,11 +35,8 @@ module.exports = (sequelize, DataTypes) => {
      }, 
      onDelete:"CASCADE"
    });
-   Product.hasOne(models.Transaction,{
-     foreignKey:{
-       allowNull:false
-     },
-   })
+  Product.belongsToMany(models.Transaction,{through:"Sale"})
+   Product.belongsToMany(models.Order,{through:"SubOrder"})
  }
   return Product;
 };

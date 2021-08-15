@@ -27,7 +27,6 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("./public"));
 app.use(favicon(__dirname + "/public/favicon/favicon.ico"));
-// app.use("/image",express.static(__dirname + "public/images/upload"))
 app.engine(
   "handlebars",
   exphbs({

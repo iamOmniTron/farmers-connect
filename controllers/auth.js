@@ -83,8 +83,6 @@ module.exports = {
           return res.redirect(req.originalUrl);
          
         }
-        // console.log(user)
-        //set session here
         req.session.user = {
           id:dataValues.id,
           name:dataValues.name,
@@ -109,10 +107,13 @@ module.exports = {
       try {
         const user = req.session.user;
         const {dataValues} = Store.findOne({where:{ownerId:user.id}})
+        const userData = await User.findOne({where:{id:req.session.user.id},raw:true})
+        console.log(userData)
         res.render("auth/profile",{
           error:req.flash("error"),
           success:req.flash("success"),
           user:user,
+          phone:userData.phone,
           store:dataValues,
           isFarmer: user.role === "farmer"?true:false
         });

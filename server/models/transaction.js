@@ -15,19 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   });
   Transaction.associate = (models)=>{
     Transaction.belongsTo(models.User,{
-      foreignKey:"buyerId"
+      allowNull:false
     })
-    Transaction.belongsTo(models.Product,{
-      foreignKey:{
-        allowNull:false
-      }
+    Transaction.belongsToMany(models.Product,{
+      through:"Sale"
     })
-    Transaction.belongsTo(models.Store,{
-      foreignKey:{
-        allowNull:false
-      },
-      onDelete:"CASCADE"
-    })
+
   }
   return Transaction;
 };

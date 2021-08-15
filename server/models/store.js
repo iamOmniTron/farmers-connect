@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
      },
      onDelete:"CASCADE"
    })
-   Store.hasMany(models.Transaction,{
+   Store.hasMany(models.Order,{
      foreignKey:{
       allowNull:false,
      },

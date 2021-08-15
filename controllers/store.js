@@ -26,6 +26,7 @@ module.exports = {
       }
       const farmerId = req.session.user.farmer.id;
       const {dataValues} = await Store.create({name,ownerId:farmerId});
+      console.log(dataValues)
       if(!dataValues){
         req.flash("error","could not create store at the moment");
         return res.redirect(req.originalUrl)
@@ -42,7 +43,7 @@ module.exports = {
       const imgUrl = file.path.replace(/\\/g, "/").substring(7);
       const {name,description,price} = req.body;
       const {id} = await Store.findOne({attributes:["id"],where:{ownerId:req.session.user.farmer.id}});
-      // console.log(id)
+      console.log(id)
       const {dataValues} = await Product.create({name,description,price,StoreId:id,imageUrl:imgUrl});
       if(!dataValues){
         req.flash("error","could not store product");

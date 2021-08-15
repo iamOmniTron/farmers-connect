@@ -1,3 +1,15 @@
+<div class="container">
+  {{#if success}}
+  <div class="alert alert-success col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+    {{success}}
+  </div>
+  {{/if}}
+  {{#if error}}
+  <div class="alert alert-danger col-6 mx-auto position-fixed h-10 opacity-5 text-center z-index-n1 w-100">
+    {{error}}
+  </div>
+  {{/if}}
+</div>
 <div class="container-fluid mt-5 mb-5">
     <div class="row g-2">
         <div class="col-md-3">
