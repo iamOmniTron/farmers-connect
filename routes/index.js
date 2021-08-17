@@ -185,11 +185,10 @@ router.get("/user/transactions",ensureAuth,async(req,res,next)=>{
 
 router.get("/farmer/transactions",ensureAuth,isFarmer,async(req,res,next)=>{
   try {
-    const Total = await Transaction.sum("total",{where:{UserId:req.session.user.id}});
-    const storeId = await Store.findOne({where:{ownerId:req.session.user.farmer.id}})
-    const items = await sequelize.query('select "Product"."name","Product"."price","Transaction"."id" as "TransactionId","User"."id" as "buyerId" from "Transaction","User","Product" inner join "Sale" on "Product"."id" = "Sale"."ProductId" inner join "Transaction" on "Transaction"."id" = "Sale"."TransactionId" inner join "User" on "Transaction"."UserId" = ""User"."id" where "Product"."StoreId" = ?',{
+    const storeId = await Store.findAll({attributes:["id"],where:{ownerId:req.session.user.farmer.id},raw:true})
+    const items = await sequelize.query('select "Product"."name","Product"."price","Transaction"."total","Transaction"."id" as "TransactionId","User"."id" as "buyerId" from "Product" inner join "Sale" on "Product"."id" = "Sale"."ProductId" inner join "Transaction" on "Transaction"."id" = "Sale"."TransactionId" inner join "User" on "Transaction"."UserId" = "User"."id" where "Product"."StoreId" = UUID(?)',{
       type:QueryTypes.SELECT,
-      replacements:[storeId]
+      replacements:[storeId[0].id]
     })
     console.log(items);
     res.render("user-transactions",{
@@ -197,9 +196,8 @@ router.get("/farmer/transactions",ensureAuth,isFarmer,async(req,res,next)=>{
       success:req.flash("success"),
       user:req.session.user,
       isAdmin:req.session.user.role ==="farmer"?true:false,
-      itemCount: req.session.user.cart.length,
       transactions:items,
-      Total
+      // Total
     })
   } catch (error) {
     throw new Error(error.message)
