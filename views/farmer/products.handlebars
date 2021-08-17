@@ -14,17 +14,12 @@
 <section class="bg-light py-4 my-5">
     <div class="container">
         <div class="row">
-          {{!-- Contents should be here --}}
-            {{!-- <div class="col-12">
-                <h2 class="mb-3 text-success">Welcome To Farmers Connect</h2>
-                <p class="lead">Buy fresh foods straight from the farm</p>
-            </div> --}}
             {{#each products}}
             <div class="col-md-6 col-lg-4">
                 <div class="card my-3">
                     <div class="card-thumbnail">
                         <a href="/farmer/product/{{id}}">
-                        <img src={{imageUrl}} class="img-fluid image" alt="thumbnail"/>
+                        <img src='../../{{imageUrl}}' class="img-fluid image" alt="thumbnail"/>
                         </a>
                     </div>
                     <div class="card-body">
@@ -33,8 +28,8 @@
                         {{!-- <form action="/cart/add/{{id}}/" method="POST" id="add-to-cart">
                             <button class="btn btn-success" type="submit">Add To Cart</button>
                         </form> --}}
-                        <button>Delete</button>
-                        <button>Edit</button>
+                        <button class="btn btn-success">Delete</button>
+                        <button class="btn btn-success">Edit</button>
                     </div>
                 </div>
             </div>

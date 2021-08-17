@@ -42,7 +42,7 @@ router.get("/profile",ensureAuth,profile)
 
 router.get("/logout",ensureAuth,logout);
 
-router.get("/dashboard",ensureAuth,async (req,res,next)=>{
+router.get("/dashboard",ensureAuth,isFarmer,async (req,res,next)=>{
   const {dataValues:store} = await Store.findOne({where:{ownerId:req.session.user.farmer.id}});
   const transactions = await Transaction.findAll({raw:true});
   const itemsSold = await Product.findAll({where:{isBought:true,StoreId:store.id},raw:true});
@@ -67,14 +67,14 @@ router.get("/dashboard",ensureAuth,async (req,res,next)=>{
   });
 });
 
-router.get("/farmer/store/add",ensureAuth,(req,res,next)=>{
+router.get("/farmer/store/add",ensureAuth,isFarmer,(req,res,next)=>{
   res.render("farmer/addProduct",{
     success: req.flash("success"),
     error: req.flash("error"),
   })
 });
 
-router.post("/farmer/store/add",ensureAuth,upload.single("image"),addProduct);
+router.post("/farmer/store/add",ensureAuth,isFarmer,upload.single("image"),addProduct);
 
 router.get("/",ensureAuth,async (req,res,next)=>{
   try {
@@ -94,7 +94,7 @@ router.get("/",ensureAuth,async (req,res,next)=>{
   }
 });
 
-router.get("/cart",async(req,res,next)=>{
+router.get("/cart",ensureAuth,async(req,res,next)=>{
   try {
     const cartItems = req.session.user.cart;
     const products = await Product.findAll({where:{id:cartItems},raw:true});
@@ -115,11 +115,11 @@ router.get("/cart",async(req,res,next)=>{
   }
 })
 
-router.post("/cart/add/:productId",addToCart);
+router.post("/cart/add/:productId",ensureAuth,addToCart);
 
-router.post("/cart/remove/:productId",removeFromCart);
+router.post("/cart/remove/:productId",ensureAuth,removeFromCart);
 
-router.get("/product/:id",async(req,res,next)=>{
+router.get("/product/:id",ensureAuth,async(req,res,next)=>{
   const productId = req.params.id;
   console.log(productId)
   const product = await Product.findOne({where:{id:productId},raw:true})
@@ -134,7 +134,7 @@ router.get("/product/:id",async(req,res,next)=>{
   })
 });
 
-router.get("/checkout",async(req,res,next)=>{
+router.get("/checkout",ensureAuth,async(req,res,next)=>{
   try {
     const userId = req.session.user.id;
     const cartItems = req.session.user.cart;
@@ -157,7 +157,7 @@ router.get("/checkout",async(req,res,next)=>{
   }
 });
 
-router.get("/user/transactions",async(req,res,next)=>{
+router.get("/user/transactions",ensureAuth,async(req,res,next)=>{
   try {
     const transactions = await Transaction.findAll({where:{UserId:req.session.user.id},raw:true});
     const total = await Transaction.sum("total",{where:{UserId:req.session.user.id}});
@@ -183,13 +183,11 @@ router.get("/user/transactions",async(req,res,next)=>{
 })
 
 
-router.get("/farmer/transactions",async(req,res,next)=>{
+router.get("/farmer/transactions",ensureAuth,isFarmer,async(req,res,next)=>{
   try {
-    // const transactions = await Transaction.findAll({where:{UserId:req.session.user.id},include:Product,raw:true});
-    // const Total = await Transaction.sum("total",{where:{UserId:req.session.user.id}});
-
+    const Total = await Transaction.sum("total",{where:{UserId:req.session.user.id}});
     const storeId = await Store.findOne({where:{ownerId:req.session.user.farmer.id}})
-    const items = await sequelize.query('select "Product"."name","Product"."price","Transaction"."id" as "TransactionId" from "Product" inner join "Sale" on "Sale"."ProductId" = "Product"."id" inner join "Transaction" on "Transaction"."id" = "Sale"."TransactionId" where "Product"."StoreId" = ?',{
+    const items = await sequelize.query('select "Product"."name","Product"."price","Transaction"."id" as "TransactionId","User"."id" as "buyerId" from "Transaction","User","Product" inner join "Sale" on "Product"."id" = "Sale"."ProductId" inner join "Transaction" on "Transaction"."id" = "Sale"."TransactionId" inner join "User" on "Transaction"."UserId" = ""User"."id" where "Product"."StoreId" = ?',{
       type:QueryTypes.SELECT,
       replacements:[storeId]
     })
@@ -200,7 +198,7 @@ router.get("/farmer/transactions",async(req,res,next)=>{
       user:req.session.user,
       isAdmin:req.session.user.role ==="farmer"?true:false,
       itemCount: req.session.user.cart.length,
-      transactions,
+      transactions:items,
       Total
     })
   } catch (error) {
@@ -209,7 +207,7 @@ router.get("/farmer/transactions",async(req,res,next)=>{
 })
 
 
-router.get("/farmer/products",async(req,res,next)=>{
+router.get("/farmer/products",ensureAuth,isFarmer,async(req,res,next)=>{
   try {
     const result = await sequelize.query('select "id" from "Store" where "ownerId"=?',{
       type:QueryTypes.SELECT,
@@ -219,7 +217,6 @@ router.get("/farmer/products",async(req,res,next)=>{
       type:QueryTypes.SELECT,
       replacements:[result[0].id]
     })
-    // console.log(products);
 
     res.render("farmer/products",{
       error:req.flash("error"),
