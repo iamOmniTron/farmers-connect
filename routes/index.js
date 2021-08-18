@@ -190,14 +190,18 @@ router.get("/farmer/transactions",ensureAuth,isFarmer,async(req,res,next)=>{
       type:QueryTypes.SELECT,
       replacements:[storeId[0].id]
     })
-    console.log(items);
+    let Total = 0;
+    const total = items.forEach((product)=>{
+      Total += product.price;
+    })
+    console.log(Total);
     res.render("user-transactions",{
       error:req.flash("error"),
       success:req.flash("success"),
       user:req.session.user,
       isAdmin:req.session.user.role ==="farmer"?true:false,
       transactions:items,
-      // Total
+      Total
     })
   } catch (error) {
     throw new Error(error.message)

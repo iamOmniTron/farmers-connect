@@ -19,7 +19,7 @@ module.exports = {
   isFarmer : (req,res,next)=>{
     if(req.session.user.role !=="farmer"){
       req.flash("error","unauthorized");
-      return res.redirect(req.originalUrl);
+      return res.redirect("/");
     }
     next();
   }
