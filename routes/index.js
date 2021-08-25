@@ -1,5 +1,5 @@
 const express = require("express");
-// const {QueryTypes} = require("sequelize");
+const path = require("path")
 const {sequelize} = require("../server/models")
 const {signup,login,profile,logout} = require("../controllers/auth");
 const {createStore,addProduct,upload,addToCart,removeFromCart} = require("../controllers/store");
@@ -9,7 +9,6 @@ const Product = require("../server/models").Product;
 const Transaction = require("../server/models").Transaction;
 const Order = require("../server/models").Order;
 const { QueryTypes } = require("sequelize");
-const { Query } = require("pg");
 const router = express.Router();
 
 router.get("/signup",ensureLoggedIn,(req,res,next)=>{
@@ -232,3 +231,41 @@ router.get("/farmer/products",ensureAuth,isFarmer,async(req,res,next)=>{
   }
 })
 module.exports = router;
+
+
+router.get("/farmer/product/:productId",ensureAuth,isFarmer,async(req,res,next)=>{
+  try {
+    const product = await Product.findOne({where:{id:req.params.productId},raw:true});
+
+    if(!product){
+      req.flash("error","Invalid product");
+      return res.redirect("/farmer/products");
+    }
+    res.render("farmer/editProduct",{
+      error:req.flash("error"),
+      success:req.flash("success"),
+      product
+    });
+  } catch (error) {
+    throw new Error(error.message)
+  }
+});
+
+router.post("/farmer/product/:productId/edit",ensureAuth,isFarmer,async(req,res,next)=>{
+  try {
+    const {name,price,description} = req.body;
+    await Product.update({name,price,description},{where:{id:req.params.productId}});
+    res.redirect("/farmer/products")
+  } catch (error) {
+    throw new Error(error.message)
+  }
+});
+
+router.get("/farmer/product/:productId/delete",ensureAuth,isFarmer,async(req,res,next)=>{
+  try {
+    await Product.destroy({where:{id:req.params.productId}});
+    res.redirect("/farmer/products");
+  } catch (error) {
+    throw new Error(error.message)
+  }
+})

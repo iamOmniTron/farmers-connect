@@ -15,20 +15,20 @@
   <h1 class="text-center text-success">Edit Product</h1>
   <hr class="text-success">
 
-<form method="post" class="row g-3">
+<form method="post" class="row g-3" action="/farmer/product/{{product.id}}/edit">
   <div class="mb-3">
-    <input type="text" class="form-control" name="name" aria-describedby="product-name" placeholder="product name" value={{name}}>
+    <input type="text" class="form-control" name="name" aria-describedby="product-name" placeholder="product name" value={{product.name}}>
   </div>
   <div class="mb-3">
-    <input type="password" class="form-control" name="description" id="exampleInputPassword1" placeholder="product-description" value={{description}}>
+    <input type="text" class="form-control" name="description" id="exampleInputPassword1" placeholder="product-description" value={{product.description}}>
   </div>
   <div class="mb-3">
     <div class="input-group-prepend">
   <div class="input-group-text">NGN</div>
-</div> <input type="number" name="price" class="form-control" id="exampleCheck1" min="10" step="" style=" padding-left:20px;
-  text-align:left;" value={{price}}>
+</div> <input type="number" name="price" class="form-control" id="exampleCheck1" min="10" step="5" style=" padding-left:20px;
+  text-align:left;" value={{product.price}}>
   </div>
-  <button type="submit" class="btn btn-success">Add</button>
+  <button type="submit" class="btn btn-success">Save</button>
 </form>
 </div>
 </div>

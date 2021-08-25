@@ -25,11 +25,8 @@
                     <div class="card-body">
                         <h3 class="card-title"><a href="#" class="text-secondary">₦ {{price}}</a></h3>
                         <p class="card-text">{{description}}</p>
-                        {{!-- <form action="/cart/add/{{id}}/" method="POST" id="add-to-cart">
-                            <button class="btn btn-success" type="submit">Add To Cart</button>
-                        </form> --}}
-                        <button class="btn btn-success">Delete</button>
-                        <button class="btn btn-success">Edit</button>
+                        <a class="btn btn-success inline" href="/farmer/product/{{id}}">Edit</a>
+                        <a class="btn btn-success" href="/farmer/product/{{id}}/delete">Delete</a>
                     </div>
                 </div>
             </div>
@@ -37,3 +34,5 @@
         </div>
     </div>
 </section>
+ 
+                        
